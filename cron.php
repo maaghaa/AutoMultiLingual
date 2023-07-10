@@ -2,8 +2,8 @@
 
 $con="Connection to the database with access to translation table";
 
-$languages = array_slice(array_keys(mysqli_fetch_assoc(mysqli_query1($con, "SELECT * FROM translation LIMIT 1"))), 2);
-$r = mysqli_fetch_assoc(mysqli_query1($con, "SELECT * FROM translation WHERE en!='' AND (" . implode(' IS NULL OR ', $languages) . " IS NULL) ORDER BY RAND() LIMIT 1"));
+$languages = array_slice(array_keys(mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM translation LIMIT 1"))), 2);
+$r = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM translation WHERE en!='' AND (" . implode(' IS NULL OR ', $languages) . " IS NULL) ORDER BY RAND() LIMIT 1"));
 $r=shuffle_assoc($r);
 $lang = array_search('', $r);
 if (!empty($r['en'])) {
@@ -21,7 +21,7 @@ if (!empty($r['en'])) {
     $dst = implode(' ', $dst);
 
     if (!empty($dst)) {
-        mysqli_query1($con, "UPDATE translation SET timestamp=" . time() . ",$lang='" . mysqli_real_escape_string($con, $dst) . "' WHERE hash='$r[hash]'");
+        mysqli_query($con, "UPDATE translation SET timestamp=" . time() . ",$lang='" . mysqli_real_escape_string($con, $dst) . "' WHERE hash='$r[hash]'");
             //sn('Translated:' . PHP_EOL . $r['en'] . PHP_EOL . PHP_EOL . $lang . PHP_EOL . $dst);
     } else {
         echo "Translation to $lang response empty. Most probably your IP got banned. source string: " . $r['en'];
