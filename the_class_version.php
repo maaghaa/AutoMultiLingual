@@ -28,7 +28,7 @@ class AutoMultiLingual {
   public function Lang($string, ...$args) {
 
     // Generate the md5 hash of the string
-    $hash = md5($string);
+    $hash = md5(strtolower(trim($string)));
 
     // Check if the hash exists in the database
     $result = $this->db->query("SELECT * FROM translation WHERE hash = '$hash'");
