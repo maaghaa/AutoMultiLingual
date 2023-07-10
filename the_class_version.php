@@ -5,7 +5,7 @@ class AutoMultiLingual {
   private $default_lang = 'en';
 
   // The selected language
-  private $selected_lang;
+  public $selected_lang;
 
   // The database connection
   private $db;

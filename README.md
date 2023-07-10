@@ -4,6 +4,19 @@ This is a php function that lets you automatically translate your project to oth
 # How to use
 after setting up the prerequisites, you just pass the string that you want to be translated to the `Lang()` function. it automatically checks the selected language, replaces the English string you entered with the target language string and thats all.
 
+**The class version:**
+The class version has recently been created. it how you use it:
+```
+//Create a new instance of the class and choose Arabic as target language
+$mlang=new AutoMultiLingual('ar');
+
+//Translate the string and echo it
+echo $mlang->Lang("Hello dear WW!",$user_nickname);
+
+//To change the language to korean
+$mlang->selected_lang='kr';
+```
+
 # How it works
 Every String that you use gets converted to an md5 hash, the hash will get checked in the database, if it exists, done, if not, it will be added to the database as a new row. every language is a column, a cron job runs every miniute and checks what string have not yet been translated, grabs the English string, queries google translate and saves the translated string to the related column.
 
