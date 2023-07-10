@@ -40,11 +40,7 @@ class AutoMultiLingual
         // If the hash exists, return the translated string or the default string
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
-            if ($row[$this->selected_lang]) {
-                $rt = $row[$this->selected_lang];
-            } else {
-                $rt = $string;
-            }
+            $rt = $row[$this->selected_lang] ?: $string;
         } else {
             // If the hash does not exist, insert a new row with the default string
             $this->db->query("INSERT INTO translation (hash, timestamp, en) VALUES ('$hash', time(), '$string')");
