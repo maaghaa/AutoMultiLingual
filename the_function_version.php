@@ -11,13 +11,22 @@
 */
 function Lang(string $text){
     global $lang,$con;
+
+    //If no language is selected set en as default
     if (empty($lang)) {$lang='en';}
 
-    $text=trim($text);
+    //trim and lower the text so that non-important changes in the string don't cause inserting duplicated rows
+    $text=strtolower(trim($text));
     
-    $hash=md5(strtolower($text));
+    $hash=md5($text);
 
-    $rt=mysqli_fetch_array(mysqli_query($con,"SELECT $lang FROM translation WHERE hash='$hash'"))[0];
+    $rt=mysqli_query($con,"SELECT $lang FROM translation WHERE hash='$hash'");
+
+    if (mysqli_num_rows($rt)>0){
+        $rt=mysqli_fetch_array(0);
+    }else{
+        mysqli_query($con,"INSERT INTO translation (hash, timestamp, en) VALUES ('$hash', time(), '$text')");
+    }
     
     if (empty($rt)) $rt=$text;
 
